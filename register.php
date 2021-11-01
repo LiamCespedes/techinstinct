@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<link rel="stylesheet" href="./css/login.css">
+<link rel="stylesheet" href="./css/register.css">
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -23,22 +23,28 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <?php
     session_start();
     include('config.php');
-    if (isset($_POST['login'])) {
+    if (isset($_POST['register'])) {
         $username = $_POST['username'];
+        $email = $_POST['email'];
         $password = $_POST['password'];
-        $query = $connection->prepare("SELECT * FROM users WHERE username=:username");
-        $query->bindParam("username", $username, PDO::PARAM_STR);
+        $password_hash = password_hash($password, PASSWORD_BCRYPT);
+        $query = $connection->prepare("SELECT * FROM users WHERE email=:email");
+        $query->bindParam("email", $email, PDO::PARAM_STR);
         $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-        if (!$result) {
-            echo '<p class="error">Username password combination is wrong!</p>';
-        } else {
-            if (password_verify($password, $result['password'])) {
-                $_SESSION['user_id'] = $result['id'];
-                echo '<p class="success">Congratulations, you are logged in!</p>';
-                header('Location: ./index.php');
+        if ($query->rowCount() > 0) {
+            echo '<p class="error">The email address is already registered!</p>';
+        }
+        if ($query->rowCount() == 0) {
+            $query = $connection->prepare("INSERT INTO users(username,password,email) VALUES (:username,:password_hash,:email)");
+            $query->bindParam("username", $username, PDO::PARAM_STR);
+            $query->bindParam("password_hash", $password_hash, PDO::PARAM_STR);
+            $query->bindParam("email", $email, PDO::PARAM_STR);
+            $result = $query->execute();
+            if ($result) {
+                echo '<p class="success">Your registration was successful!</p>';
+                header('Location: ./login.php');
             } else {
-                echo '<p class="error">Username password combination is wrong!</p>';
+                echo '<p class="error">Something went wrong!</p>';
             }
         }
     }
@@ -57,11 +63,15 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
             <div id="login-row" class="row justify-content-center align-items-center">
                 <div id="login-column" class="col-md-6">
                     <div id="login-box" class="col-md-12">
-                        <form id="login-form" class="form" action="" method="post" name="signin-form">
-                            <h3 class="text-center text-info">Login</h3>
+                        <form id="login-form" class="form" action="" method="post" name="signup-form">
+                            <h3 class="text-center text-info">Register</h3>
                             <div class="form-group">
                                 <label for="username" class="text-info">Username:</label><br>
                                 <input type="text" name="username" id="username" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="text-info">Email:</label><br>
+                                <input type="text" name="email" id="email" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">Password:</label><br>
@@ -69,10 +79,10 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
                             </div>
                             <div class="form-group">
                                 <br>
-                                <input type="submit" name="login" class="btn btn-info btn-md" value="login">
+                                <input type="submit" name="register" class="btn btn-info btn-md" value="register">
                             </div>
-                            <div id="register-link" class="text-right">
-                                <a href="./register.php" class="text-info">Register here</a>
+                            <div id="register-link" class="text-center">
+                                <a href="./login.php" class="text-info">Already have an account? Log in here</a>
                             </div>
                         </form>
                     </div>

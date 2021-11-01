@@ -12,6 +12,17 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
 .fa-anchor,.fa-coffee {font-size:200px}
 </style>
+
+<?php
+    session_start();
+    if(!isset($_SESSION['user_id'])){
+        header('Location: login.php');
+        exit;
+    } else {
+        // Show users the page!
+    }
+?>
+
 <body>
 
 <!-- Navbar -->
