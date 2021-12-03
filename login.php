@@ -21,30 +21,32 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 </style>
 
 <?php
-    session_start();
-    include('config.php');
-    if (isset($_POST['login'])) {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $query = $connection->prepare("SELECT * FROM users WHERE username=:username");
-        $query->bindParam("username", $username, PDO::PARAM_STR);
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-        if (!$result) {
-            echo '<p class="error">Username password combination is wrong!</p>';
-        } else {
-            if (password_verify($password, $result['password'])) {
-                $_SESSION['user_id'] = $result['id'];
-                echo '<p class="success">Congratulations, you are logged in!</p>';
-                header('Location: ./index.php');
-            } else {
-                echo '<p class="error">Username password combination is wrong!</p>';
-            }
-        }
+require('dbConn.php');
+session_start();
+// If form submitted, insert values into the database.
+if (isset($_POST['username'])){
+        // removes backslashes
+	$username = stripslashes($_REQUEST['username']);
+        //escapes special characters in a string
+	$username = mysqli_real_escape_string($db,$username);
+	$password = stripslashes($_REQUEST['password']);
+	$password = mysqli_real_escape_string($db,$password);
+	//Checking is user existing in the database or not
+        $query = "SELECT * FROM `users` WHERE username='$username'
+and password='".md5($password)."'";
+	$result = mysqli_query($db,$query) or die(mysql_error());
+	$rows = mysqli_num_rows($result);
+        if($rows==1){
+	    $_SESSION['username'] = $username;
+            // Redirect user to index.php
+	    header("Location: index.php");
+         }else{
+	echo "<p>Username password combination is wrong!</p>";
+	}
+    }else{
+        
     }
 ?>
-
-
 <body>
 
 <!-- Header -->

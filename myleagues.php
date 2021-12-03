@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<php lang="en">
-<title>MySportsDatabase</title>
+<html lang="en">
+<title>My Leagues</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -12,6 +12,17 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
 .fa-anchor,.fa-coffee {font-size:200px}
 </style>
+
+<?php
+    session_start();
+    if(!isset($_SESSION['username'])){
+        header('Location: login.php');
+        exit;
+    } else {
+        // Show users the page!
+    }
+?>
+
 <body>
 
 <!-- Navbar -->
@@ -20,10 +31,10 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="./index.php" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Home</a>
     <a href="./nfl.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">NFL Stats</a>
-    <a href="./nba.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-white">NBA Stats</a>
+    <a href="./nba.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">NBA Stats</a>
     <a href="./mlb.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">MLB Stats</a>
     <a href="./mls.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">MLS Stats</a>
-    <a href="./myleagues.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">My Leagues</a>
+    <a href="./myleagues.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-white">My Leagues</a>
     <a href="./logout.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Log Out</a>
   </div>
 
@@ -39,103 +50,91 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
 <!-- Header -->
 <header class="w3-container w3-red w3-center" style="padding:128px 16px">
-  <h1 class="w3-margin w3-jumbo">NBA Statistics</h1>
-  <p class="w3-xlarge">Standings, player rankings, and more...</p>
+  <h1 class="w3-margin w3-jumbo">My Leagues</h1>
+  <p class="w3-xlarge">Tools to create and manage a league</p>
   
-  <img src="http://assets.stickpng.com/images/58428defa6515b1e0ad75ab4.png" width="270px" class="w3-padding-large w3-large w3-margin-top" alt="NBA Logo">
+  <img src="https://www.pikpng.com/pngl/b/52-520496_png-soccer-ball-soccer-ball-logo-png-clipart.png" width="150px" class="w3-padding-large w3-large w3-margin-top" alt="Png Soccer Ball - Soccer Ball Logo Png Clipart@pikpng.com">
 </header>
 
 <!-- First Grid -->
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
     <div class="w3-twothird">
-      <h1>Standings for 2021</h1>
+      <h1>Create your own standings with this tool (To be updated later)</h1>
+      <h5 class="w3-padding-32">Coming soon: With this feature, you can add a custom league, teams and results to our database. This way you can keep track of your own league.</h5>
     </div>
 
-    <div class="w3-container">
-        <h2>Eastern Conference</h2>
-      
-        <table class="w3-table w3-striped">
-          <tr>
-            <th>Team</th>
-            <th>Wins</th>
-            <th>Losses</th>
-            <th>Win Percentage (%)</th>
-          </tr>
-
-          <?php
-          require('dbConn.php');
-          session_start();
-          $query = "SELECT DISTINCT teamname,wins,losses,pct FROM nbastandings WHERE division='Eastern' ORDER BY wins DESC;";
-          $result = mysqli_query($db,$query) or die(mysql_error());
-          while ($row = mysqli_fetch_array($result)) {
-            echo "<tr>";
-            echo "<td>" . $row['teamname'] . "</td>";
-            echo "<td>" . $row['wins'] . "</td>";
-            echo "<td>" . $row['losses'] . "</td>";
-            echo "<td>" . $row['pct'] . "</td>";
-            echo "</tr>";
-          }
-          ?>
-
-        </table>
-      </div>
-
-      <div class="w3-container">
-        <h2>Western Conference</h2>
-      
-        <table class="w3-table w3-striped">
-          <tr>
-            <th>Team</th>
-            <th>Wins</th>
-            <th>Losses</th>
-            <th>Win Percentage (%)</th>
-          </tr>
-
-          <?php
-          $query2 = "SELECT DISTINCT teamname,wins,losses,pct FROM nbastandings WHERE division='Western' ORDER BY wins DESC;";
-          $result2 = mysqli_query($db,$query2) or die(mysql_error());
-          while ($row2 = mysqli_fetch_array($result2)) {
-            echo "<tr>";
-            echo "<td>" . $row2['teamname'] . "</td>";
-            echo "<td>" . $row2['wins'] . "</td>";
-            echo "<td>" . $row2['losses'] . "</td>";
-            echo "<td>" . $row2['pct'] . "</td>";  
-            echo "</tr>";
-          }
-          ?>
-
-        </table>
-      </div>
-
+    <div class="w3-third w3-center">
+      <i class="fa fa-pie-chart w3-padding-64 w3-text-red" style="font-size:180px"></i>
+    </div>
   </div>
 </div>
 
 <!-- Second Grid -->
 <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
   <div class="w3-content">
-
-    <div class="w3-twothird">
-      <h1>Top Players</h1>
-      <h5 class="w3-padding-32">TBD</h5>
-
-      <p class="w3-text-grey">TBD</p>
+    <div class="w3-third w3-center">
+      <i class="fa fa-database w3-padding-64 w3-text-red w3-margin-right" style="font-size:180px"></i>
     </div>
 
-    
+    <div class="w3-twothird">
+      <h1>Create your own standings</h1>
+      <h5 class="w3-padding-32">Standings Creator Tool</h5>
+
+      <form method="POST">
+            <input type="text" name="teamname" value="<?php echo $data['teamname'] ?>" placeholder="Enter name of team" Required>
+            <input type="number" name="wins" value="<?php echo $data['wins'] ?>" placeholder="Enter number of wins" Required>
+            <input type="number" name="losses" value="<?php echo $data['losses'] ?>" placeholder="Enter number of losses" Required>
+            <input type="submit" name="update" value="update">
+        </form>
+      
+      <p class="w3-text-grey">More features to be added.</p>
+
+      <table class="w3-table w3-striped">
+          <tr>
+            <th>Team</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Remove</th>
+          </tr>
+
+          <?php
+          require('dbConn.php');
+          $tableowner = $_SESSION['username'];
+          if(isset($_POST['update'])){
+            $sql = "INSERT INTO userstandings (owner,teamname, wins, losses) VALUES (?,?,?,?);";
+            $stmt = $db->prepare($sql);
+            $stmt->bind_param("ssss",$tableowner, $_POST['teamname'], $_POST['wins'], $_POST['losses']);
+            $stmt->execute();
+          }
+          $query1 = "SELECT id,teamname, wins, losses FROM userstandings WHERE owner='" . $tableowner . "' ORDER BY wins DESC;";
+          $result1 = mysqli_query($db,$query1) or die(mysql_error());
+          while ($row = mysqli_fetch_array($result1)) {
+            echo "<tr>";
+            echo "<td>" . $row['teamname'] . "</td>";
+            echo "<td>" . $row['wins'] . "</td>";
+            echo "<td>" . $row['losses'] . "</td>";
+            echo "<td><a href='delete.php?id=" . $row['id'] . "'>Delete</a></td>";
+            echo "</tr>";
+          }
+          ?>
+
+
+      </table>
+    </div>
   </div>
 </div>
 
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
-<?php
-          require('dbConn.php');
+  <?php
+          //require('dbConn.php');
           //session_start();
           $randFact = rand(1, 25);
           $query = "SELECT fact FROM facts WHERE id = " . $randFact . ";";
           $result = mysqli_query($db,$query) or die(mysql_error());
           $row = mysqli_fetch_array($result);
           echo "<h1> Fun Fact: " . $row['fact'] . "</h1>";
-    ?>
+  ?>
 </div>
 
 <!-- Footer -->

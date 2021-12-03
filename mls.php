@@ -12,6 +12,13 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
 .fa-anchor,.fa-coffee {font-size:200px}
 </style>
+
+<?php
+
+
+?>
+
+
 <body>
 
 <!-- Navbar -->
@@ -23,6 +30,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     <a href="./nba.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">NBA Stats</a>
     <a href="./mlb.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">MLB Stats</a>
     <a href="./mls.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-white">MLS Stats</a>
+    <a href="./myleagues.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">My Leagues</a>
+    <a href="./logout.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Log Out</a>
   </div>
 
   <!-- Navbar on small screens -->
@@ -31,6 +40,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     <a href="./nba.php" class="w3-bar-item w3-button w3-padding-large">NBA</a>
     <a href="./mlb.php" class="w3-bar-item w3-button w3-padding-large">MLB</a>
     <a href="./mls.php" class="w3-bar-item w3-button w3-padding-large">MLS</a>
+    <a href="./myleagues.php" class="w3-bar-item w3-button w3-padding-large">My Leagues</a>
   </div>
 </div>
 
@@ -47,14 +57,24 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   <div class="w3-content">
     <div class="w3-twothird">
       <h1>Standings for 2021</h1>
-      <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
 
-      <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat.</p>
     </div>
 
   </div>
+  <div id="wg-api-football-standings"
+     data-host="api-football-v1.p.rapidapi.com"
+     data-league="253"
+     data-team=""
+     data-season="2021"
+     data-key="38be8fff6dmsh4554baba0a8d9f8p124d22jsn6c41dafc87a1"
+     data-theme=""
+     data-show-errors="false"
+     class="api_football_loader"></div>
+    <script
+        type="module"
+        src="https://widgets.api-sports.io/football/1.1.8/widget.js">
+    </script>
+
 </div>
 
 <!-- Second Grid -->
@@ -63,17 +83,23 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
     <div class="w3-twothird">
       <h1>Top Players</h1>
-      <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
+      <h5 class="w3-padding-32">This section is under construction</h5>
 
-      <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p class="w3-text-grey">Under construction</p>
     </div>
   </div>
 </div>
 
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
-    <h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
+<?php
+          require('dbConn.php');
+          //session_start();
+          $randFact = rand(1, 25);
+          $query = "SELECT fact FROM facts WHERE id = " . $randFact . ";";
+          $result = mysqli_query($db,$query) or die(mysql_error());
+          $row = mysqli_fetch_array($result);
+          echo "<h1> Fun Fact: " . $row['fact'] . "</h1>";
+    ?>
 </div>
 
 <!-- Footer -->

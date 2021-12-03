@@ -21,33 +21,26 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 </style>
 
 <?php
-    session_start();
-    include('config.php');
-    if (isset($_POST['register'])) {
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $password_hash = password_hash($password, PASSWORD_BCRYPT);
-        $query = $connection->prepare("SELECT * FROM users WHERE email=:email");
-        $query->bindParam("email", $email, PDO::PARAM_STR);
-        $query->execute();
-        if ($query->rowCount() > 0) {
-            echo '<p class="error">The email address is already registered!</p>';
-        }
-        if ($query->rowCount() == 0) {
-            $query = $connection->prepare("INSERT INTO users(username,password,email) VALUES (:username,:password_hash,:email)");
-            $query->bindParam("username", $username, PDO::PARAM_STR);
-            $query->bindParam("password_hash", $password_hash, PDO::PARAM_STR);
-            $query->bindParam("email", $email, PDO::PARAM_STR);
-            $result = $query->execute();
-            if ($result) {
-                echo '<p class="success">Your registration was successful!</p>';
-                header('Location: ./login.php');
-            } else {
-                echo '<p class="error">Something went wrong!</p>';
-            }
-        }
+require('dbConn.php');
+// If form submitted, insert values into the database.
+if (isset($_REQUEST['username'])){
+        // removes backslashes
+	$username = stripslashes($_REQUEST['username']);
+        //escapes special characters in a string
+	$username = mysqli_real_escape_string($db,$username); 
+	$email = stripslashes($_REQUEST['email']);
+	$email = mysqli_real_escape_string($db,$email);
+	$password = stripslashes($_REQUEST['password']);
+	$password = mysqli_real_escape_string($db,$password);
+        $query = "INSERT into `users` (username, password, email) VALUES ('$username', '".md5($password)."', '$email')";
+        $result = mysqli_query($db,$query);
+        if($result){
+            echo '<p class="success">Your registration was successful!</p>';
+            header('Location: ./login.php');
+        }else{
+        echo '<p class="error">Something went wrong!</p>';
     }
+}
 ?>
 
 

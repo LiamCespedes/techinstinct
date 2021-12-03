@@ -23,6 +23,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     <a href="./nba.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">NBA Stats</a>
     <a href="./mlb.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">MLB Stats</a>
     <a href="./mls.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">MLS Stats</a>
+    <a href="./myleagues.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">My Leagues</a>
+    <a href="./logout.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Log Out</a>
   </div>
 
   <!-- Navbar on small screens -->
@@ -31,6 +33,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     <a href="./nba.php" class="w3-bar-item w3-button w3-padding-large">NBA</a>
     <a href="./mlb.php" class="w3-bar-item w3-button w3-padding-large">MLB</a>
     <a href="./mls.php" class="w3-bar-item w3-button w3-padding-large">MLS</a>
+    <a href="./myleagues.php" class="w3-bar-item w3-button w3-padding-large">My Leagues</a>
   </div>
 </div>
 
@@ -49,66 +52,123 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       <h1>Standings for 2021</h1>
     </div>
     <div class="w3-container">
-        <h2>Eastern Division</h2>
+        <h2>AFC East</h2>
       
         <table class="w3-table w3-striped">
           <tr>
-            <th>Rank</th>
             <th>Team</th>
             <th>Wins</th>
             <th>Losses</th>
+            <th>Ties</th>
+            <th>Win Percentage (%)</th>
           </tr>
-          <tr>
-            <td>1</td>
-            <td>Sample</td>
-            <td>Sample</td>
-            <td>Sample</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Sample</td>
-            <td>Sample</td>
-            <td>Sample</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Sample</td>
-            <td>Sample</td>
-            <td>Sample</td>
-          </tr>
+
+          <?php
+          require('dbConn.php');
+          session_start();
+          $query = "SELECT teamname,wins,losses,ties,pct FROM nflstandings WHERE division='AFC East' ORDER BY wins DESC;";
+          $result = mysqli_query($db,$query) or die(mysql_error());
+          while ($row = mysqli_fetch_array($result)) {
+            echo "<tr>";
+            echo "<td>" . $row['teamname'] . "</td>";
+            echo "<td>" . $row['wins'] . "</td>";
+            echo "<td>" . $row['losses'] . "</td>";
+            echo "<td>" . $row['ties'] . "</td>";
+            echo "<td>" . $row['pct'] . "</td>";  
+            echo "</tr>";
+          }
+          ?>
+
         </table>
       </div>
 
       <div class="w3-container">
-        <h2>Western Division</h2>
+        <h2>AFC West</h2>
       
         <table class="w3-table w3-striped">
           <tr>
-            <th>Rank</th>
             <th>Team</th>
             <th>Wins</th>
             <th>Losses</th>
+            <th>Ties</th>
+            <th>Win Percentage</th>
           </tr>
-          <tr>
-            <td>1</td>
-            <td>Sample</td>
-            <td>Sample</td>
-            <td>Sample</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Sample</td>
-            <td>Sample</td>
-            <td>Sample</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Sample</td>
-            <td>Sample</td>
-            <td>Sample</td>
-          </tr>
+          <?php
+          //require('dbConn.php');
+          session_start();
+          $query = "SELECT teamname,wins,losses,ties,pct FROM nflstandings WHERE division='AFC West' ORDER BY wins DESC;";
+          $result = mysqli_query($db,$query) or die(mysql_error());
+          while ($row = mysqli_fetch_array($result)) {
+            echo "<tr>";
+            echo "<td>" . $row['teamname'] . "</td>";
+            echo "<td>" . $row['wins'] . "</td>";
+            echo "<td>" . $row['losses'] . "</td>";
+            echo "<td>" . $row['ties'] . "</td>";
+            echo "<td>" . $row['pct'] . "</td>";  
+            echo "</tr>";
+          }
+          ?>
         </table>
       </div>
+
+      <div class="w3-container">
+        <h2>AFC North</h2>
+      
+        <table class="w3-table w3-striped">
+          <tr>
+            <th>Team</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Ties</th>
+            <th>Win Percentage</th>
+          </tr>
+          <?php
+          //require('dbConn.php');
+          session_start();
+          $query = "SELECT teamname,wins,losses,ties,pct FROM nflstandings WHERE division='AFC North' ORDER BY wins DESC;";
+          $result = mysqli_query($db,$query) or die(mysql_error());
+          while ($row = mysqli_fetch_array($result)) {
+            echo "<tr>";
+            echo "<td>" . $row['teamname'] . "</td>";
+            echo "<td>" . $row['wins'] . "</td>";
+            echo "<td>" . $row['losses'] . "</td>";
+            echo "<td>" . $row['ties'] . "</td>";
+            echo "<td>" . $row['pct'] . "</td>";  
+            echo "</tr>";
+          }
+          ?>
+        </table>
+      </div>
+
+      <div class="w3-container">
+        <h2>AFC South</h2>
+      
+        <table class="w3-table w3-striped">
+          <tr>
+            <th>Team</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Ties</th>
+            <th>Win Percentage</th>
+          </tr>
+          <?php
+          //require('dbConn.php');
+          session_start();
+          $query = "SELECT teamname,wins,losses,ties,pct FROM nflstandings WHERE division='AFC South' ORDER BY wins DESC;";
+          $result = mysqli_query($db,$query) or die(mysql_error());
+          while ($row = mysqli_fetch_array($result)) {
+            echo "<tr>";
+            echo "<td>" . $row['teamname'] . "</td>";
+            echo "<td>" . $row['wins'] . "</td>";
+            echo "<td>" . $row['losses'] . "</td>";
+            echo "<td>" . $row['ties'] . "</td>";
+            echo "<td>" . $row['pct'] . "</td>";  
+            echo "</tr>";
+          }
+          ?>
+        </table>
+      </div>
+
 
   </div>
 </div>
@@ -119,17 +179,23 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
     <div class="w3-twothird">
       <h1>Top Players</h1>
-      <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
+      <h5 class="w3-padding-32">TBD</h5>
 
-      <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p class="w3-text-grey">TBD</p>
     </div>
   </div>
 </div>
 
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
-    <h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
+<?php
+          require('dbConn.php');
+          //session_start();
+          $randFact = rand(1, 25);
+          $query = "SELECT fact FROM facts WHERE id = " . $randFact . ";";
+          $result = mysqli_query($db,$query) or die(mysql_error());
+          $row = mysqli_fetch_array($result);
+          echo "<h1> Fun Fact: " . $row['fact'] . "</h1>";
+    ?>
 </div>
 
 <!-- Footer -->

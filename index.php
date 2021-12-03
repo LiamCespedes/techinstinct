@@ -15,7 +15,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
 <?php
     session_start();
-    if(!isset($_SESSION['user_id'])){
+    if(!isset($_SESSION['username'])){
         header('Location: login.php');
         exit;
     } else {
@@ -34,6 +34,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     <a href="./nba.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">NBA Stats</a>
     <a href="./mlb.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">MLB Stats</a>
     <a href="./mls.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">MLS Stats</a>
+    <a href="./myleagues.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">My Leagues</a>
+    <a href="./logout.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Log Out</a>
   </div>
 
   <!-- Navbar on small screens -->
@@ -42,6 +44,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     <a href="./nba.php" class="w3-bar-item w3-button w3-padding-large">NBA</a>
     <a href="./mlb.php" class="w3-bar-item w3-button w3-padding-large">MLB</a>
     <a href="./mls.php" class="w3-bar-item w3-button w3-padding-large">MLS</a>
+    <a href="./myleagues.php" class="w3-bar-item w3-button w3-padding-large">My Leagues</a>
   </div>
 </div>
 
@@ -90,7 +93,15 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 </div>
 
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
-    <h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
+    <?php
+          require('dbConn.php');
+          //session_start();
+          $randFact = rand(1, 25);
+          $query = "SELECT fact FROM facts WHERE id = " . $randFact . ";";
+          $result = mysqli_query($db,$query) or die(mysql_error());
+          $row = mysqli_fetch_array($result);
+          echo "<h1> Fun Fact: " . $row['fact'] . "</h1>";
+    ?>
 </div>
 
 <!-- Footer -->
